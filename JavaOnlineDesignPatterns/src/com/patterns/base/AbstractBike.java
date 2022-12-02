@@ -26,13 +26,33 @@ public abstract class AbstractBike implements BikeInterface {
     } // End property getColor
 
     @Override
+    public float getPrice() {
+        return 900.00f;
+    }
+
+    @Override
     public void paint(BikeColor color) {
         this.color = color;
     } // End method paint
 
     @Override
+    public void airTires() {
+        System.out.println("Airing up tires...");
+    }
+
+    @Override
+    public void cleanFrame() {
+        System.out.println("Cleaning frame...");
+    }
+
+    @Override
+    public void testRide() {
+        System.out.println("Taking bike out for a test ride...");
+    }
+
+    @Override
     public String toString() {
-        return getClass().getSimpleName() + " ( " + wheel + " , " + color + " )";
+        return getClass().getSimpleName() + " ( " + wheel + " , " + color + ", price = $" + getPrice() + " )";
     } // End method toString
 
 } // End class

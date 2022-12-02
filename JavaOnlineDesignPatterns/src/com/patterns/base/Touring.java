@@ -12,4 +12,8 @@ public class Touring extends RoadBike {
         this(wheel, BikeColor.BLUE);
     } // End constructor
 
+    @Override
+    public float getPrice() {
+        return 570.00f;
+    }
 } // End class
