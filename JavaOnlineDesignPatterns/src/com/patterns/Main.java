@@ -14,9 +14,20 @@ import com.patterns.builder.RoadBikeDirector;
 import com.patterns.decorator.GoldFrameOption;
 import com.patterns.decorator.LeatherSeatOption;
 import com.patterns.facade.BikeFacade;
+import com.patterns.iterator.MountainBikeRange;
+import com.patterns.iterator.RoadBikeRange;
+import com.patterns.observer.GearBox;
+import com.patterns.observer.SpeedMonitor;
+import com.patterns.observer.Speedometer;
+import com.patterns.observerv2.BikeGearBox;
+import com.patterns.observerv2.BikeSpeedMonitor;
+import com.patterns.observerv2.BikeSpeedometer;
 import com.patterns.singleton.SerialNumberGenerator;
+import com.patterns.visitor.WheelDiagnostics;
+import com.patterns.visitor.WheelInventory;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Main {
@@ -27,7 +38,12 @@ public class Main {
         //singletonExample();
         //adapterExample();
         //decoratorExample();
-        facadeExample();
+        //facadeExample();
+        //iteratorExample1();
+        //iteratorExample2();
+        //observerExample();
+        //observerExampleV2();
+        visitorExample();
     }
 
     static void abstractFactoryExample() {
@@ -72,6 +88,7 @@ public class Main {
         System.out.println(myTouringBike);
 
         myTouringBike = new GoldFrameOption(myTouringBike);
+        myTouringBike.paint(BikeColor.GOLD);
         System.out.println(myTouringBike);
 
         myTouringBike = new LeatherSeatOption(myTouringBike);
@@ -81,5 +98,65 @@ public class Main {
     static void facadeExample() {
         BikeFacade bikeFacade = new BikeFacade();
         bikeFacade.prepareForSale(new DownHill(new WideWheel(25 )));
+    }
+
+    static void iteratorExample1() {
+        System.out.println("=== Our Road Bikes ===");
+        RoadBikeRange bikeRange = new RoadBikeRange();
+        printIterator(bikeRange.iterator());
+        System.out.println("=== Our Mountain Bikes ===");
+        MountainBikeRange mountRange = new MountainBikeRange();
+        printIterator(mountRange.iterator());
+    }
+
+    static void iteratorExample2() {
+        System.out.println("=== Our Road Bikes");
+        RoadBikeRange bikeRange = new RoadBikeRange();
+        for(BikeInterface bikes : bikeRange.getRange()) {
+            System.out.println(bikes);
+        }
+
+        System.out.println("=== Mountain Bikes");
+        MountainBikeRange mountainRange = new MountainBikeRange();
+        for(BikeInterface bikes : mountainRange.getRange()) {
+            System.out.println(bikes);
+        }
+    }
+
+    static void printIterator(Iterator iter) {
+        while (iter.hasNext()) {
+            System.out.println(iter.next());
+        }
+    }
+
+    static void observerExample() {
+        SpeedMonitor monitor = new SpeedMonitor();
+        Speedometer speedo = new Speedometer();
+        speedo.addObserver(monitor);
+        speedo.addObserver(new GearBox());
+
+        speedo.setCurrentSpeed(5);
+        speedo.setCurrentSpeed(10);
+        speedo.setCurrentSpeed(20);
+        speedo.setCurrentSpeed(30);
+        speedo.setCurrentSpeed(35);
+    }
+
+    static void observerExampleV2() {
+        BikeSpeedometer speedo = new BikeSpeedometer();
+        speedo.addSpeedometerListener(new BikeSpeedMonitor());
+        speedo.addSpeedometerListener(new BikeGearBox());
+
+        speedo.setCurrentSpeed(5);
+        speedo.setCurrentSpeed(10);
+        speedo.setCurrentSpeed(20);
+        speedo.setCurrentSpeed(30);
+        speedo.setCurrentSpeed(35);
+    }
+
+    static void visitorExample() {
+        WheelInterface wheel = new WideWheel(24);
+        wheel.acceptVisitor(new WheelDiagnostics());
+        wheel.acceptVisitor(new WheelInventory());
     }
 }

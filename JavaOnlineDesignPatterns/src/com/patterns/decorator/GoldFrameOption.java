@@ -19,8 +19,8 @@ public class GoldFrameOption extends AbstractBikeOption {
         super.paint(BikeColor.GOLD);
     }
 
-//    @Override
-//    public String toString() {
-//        return getClass().getSimpleName() + " (" + getWheel() + ", GOLD FRAME, price = " + getPrice() + ")";
-//    }
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " (" + getWheel() + ", GOLD FRAME, price = " + getPrice() + ")";
+    }
 }
